@@ -1,4 +1,4 @@
-package com.katerly.catering.dto;
+package com.katerly.catering.dto.response;
 
 import lombok.Getter;
 
