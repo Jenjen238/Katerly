@@ -27,17 +27,15 @@ public class User {
     @Column(nullable = false, unique = true, length = 150)
     private String email;
 
-    // Nullable karena user login via Google tidak punya password
     @Column(nullable = true, length = 255)
     private String password;
-
-    // Untuk login via Google OAuth (diisi nanti)
+    //Google id nanti diisi
     @Column(name = "google_id", unique = true, length = 255)
     private String googleId;
 
     @Column(name = "is_premium", nullable = false)
     @Builder.Default
-    private Boolean isPremium = false;
+    private boolean premium = false;
 
     @CreationTimestamp
     @Column(name = "created_at", updatable = false)
@@ -46,4 +44,5 @@ public class User {
     @UpdateTimestamp
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
+
 }
