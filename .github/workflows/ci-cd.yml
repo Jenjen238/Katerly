@@ -2,14 +2,14 @@ name: CI/CD Spring Boot
 
 on:
   push:
-    branches: [ "*" ]
+    branches: [ "main" ]
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-      # 1. Ambil kode
+      # 1. Checkout code
       - name: Checkout code
         uses: actions/checkout@v4
 
@@ -19,11 +19,13 @@ jobs:
         with:
           java-version: '21'
           distribution: 'temurin'
+          cache: 'maven'
 
-      # 3. Build dengan Maven
+      # 3. Build dengan Maven (working directory = backend/)
       - name: Build with Maven
+        working-directory: ./backend
         run: mvn clean package -DskipTests
 
-      # 4. Build Docker image
+      # 4. Build Docker image (context = backend/ where Dockerfile lives)
       - name: Build Docker Image
-        run: docker build -t spring-app .
+        run: docker build -t spring-app ./backend -f ./backend/dockerfile
