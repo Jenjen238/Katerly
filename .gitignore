@@ -1,2 +1,4 @@
 target
 applications.properties
+.env
+docker-compose.yml
