@@ -7,10 +7,10 @@ server.port=8080
 # ==============================
 # DATABASE - PostgreSQL
 # ==============================
-spring.datasource.url=jdbc:postgresql://localhost:5432/katerly
+spring.datasource.url=${DB_URL}
 spring.datasource.driver-class-name=org.postgresql.Driver
-spring.datasource.username=postgres
-spring.datasource.password=92IJ4UWJE7ND
+spring.datasource.username=${DB_USERNAME}
+spring.datasource.password=${DB_PASSWORD}
 
 spring.jpa.database-platform=org.hibernate.dialect.PostgreSQLDialect
 spring.jpa.hibernate.ddl-auto=update
@@ -20,7 +20,7 @@ spring.jpa.properties.hibernate.format_sql=true
 # ==============================
 # JWT CONFIG
 # ==============================
-jwt.secret=kaTerLyCaTeRiNgSuPeRsEcReTkEy2024AtLeast256BitsLongForSecurity
+jwt.secret=${JWT_SECRET}
 jwt.access-token.expiration=900000
 jwt.refresh-token.expiration=604800000
 
@@ -35,14 +35,14 @@ cookie.same-site=Strict
 # ==============================
 spring.mail.host=smtp.gmail.com
 spring.mail.port=587
-spring.mail.username=hanifafghani92@gmail.com
-spring.mail.password=wajycdmfmqzpbwkq
+spring.mail.username=${MAIL_USERNAME}
+spring.mail.password=${MAIL_PASSWORD}
 spring.mail.properties.mail.smtp.auth=true
 spring.mail.properties.mail.smtp.starttls.enable=true
 spring.mail.properties.mail.smtp.starttls.required=true
 
 # URL untuk link reset password di email
-app.frontend-url=http://localhost:3000
+app.frontend-url=${FRONTEND_URL}
 app.reset-password.expiration=3600000
 
 # ==============================

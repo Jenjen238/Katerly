@@ -21,11 +21,58 @@ jobs:
           distribution: 'temurin'
           cache: 'maven'
 
-      # 3. Build dengan Maven (working directory = backend/)
+      # 3. Generate application.properties dari GitHub Secrets
+      - name: Create application.properties
+        run: |
+          cat > backend/src/main/resources/application.properties <<EOF
+          spring.application.name=katerly-catering
+          server.port=8080
+
+          spring.datasource.url=${{ secrets.DB_URL }}
+          spring.datasource.driver-class-name=org.postgresql.Driver
+          spring.datasource.username=${{ secrets.DB_USERNAME }}
+          spring.datasource.password=${{ secrets.DB_PASSWORD }}
+
+          spring.jpa.database-platform=org.hibernate.dialect.PostgreSQLDialect
+          spring.jpa.hibernate.ddl-auto=update
+          spring.jpa.show-sql=false
+          spring.jpa.properties.hibernate.format_sql=true
+
+          jwt.secret=${{ secrets.JWT_SECRET }}
+          jwt.access-token.expiration=900000
+          jwt.refresh-token.expiration=604800000
+
+          cookie.secure=false
+          cookie.same-site=Strict
+
+          spring.mail.host=smtp.gmail.com
+          spring.mail.port=587
+          spring.mail.username=${{ secrets.MAIL_USERNAME }}
+          spring.mail.password=${{ secrets.MAIL_PASSWORD }}
+          spring.mail.properties.mail.smtp.auth=true
+          spring.mail.properties.mail.smtp.starttls.enable=true
+          spring.mail.properties.mail.smtp.starttls.required=true
+
+          app.frontend-url=${{ secrets.FRONTEND_URL }}
+          app.reset-password.expiration=3600000
+
+          springdoc.swagger-ui.path=/swagger-ui.html
+          springdoc.api-docs.path=/api-docs
+          springdoc.swagger-ui.operationsSorter=method
+
+          spring.servlet.multipart.max-file-size=5MB
+          spring.servlet.multipart.max-request-size=10MB
+          katerly.upload.dir=uploads/logos
+
+          logging.level.com.katerly=DEBUG
+          logging.level.org.springframework.security=WARN
+          EOF
+
+      # 4. Build dengan Maven
       - name: Build with Maven
         working-directory: ./backend
         run: mvn clean package -DskipTests
 
-      # 4. Build Docker image (context = backend/ where Dockerfile lives)
+      # 5. Build Docker image
       - name: Build Docker Image
-        run: docker build -t spring-app ./backend -f ./backend/dockerfile
+        run: docker build -t spring-app ./backend -f ./backend/Dockerfile
