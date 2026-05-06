@@ -2,7 +2,7 @@ name: CI/CD Spring Boot
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "*" ]
 
 jobs:
   build:
