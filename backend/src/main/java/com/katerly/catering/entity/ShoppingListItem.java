@@ -39,5 +39,5 @@ public class ShoppingListItem {
     // Untuk fitur centang sudah dibeli, disimpan di DB agar tidak hilang saat logout
     @Column(name = "is_bought", nullable = false)
     @Builder.Default
-    private Boolean isBought = false;
+    private boolean isBought = false;
 }
