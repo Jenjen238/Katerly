@@ -108,6 +108,13 @@
             <version>2.6.0</version>
         </dependency>
 
+        <!-- Midtrans -->
+        <dependency>
+            <groupId>com.midtrans</groupId>
+            <artifactId>java-library</artifactId>
+            <version>3.1.1</version>
+        </dependency>
+
         <!-- PDF Generation (iText) -->
         <dependency>
             <groupId>com.itextpdf</groupId>

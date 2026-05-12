@@ -41,6 +41,13 @@ spring.mail.properties.mail.smtp.auth=true
 spring.mail.properties.mail.smtp.starttls.enable=true
 spring.mail.properties.mail.smtp.starttls.required=true
 
+# ==============================
+# MIDTRANS CONFIG
+# ==============================
+midtrans.server-key=${MIDTRANS_SERVER_KEY}
+midtrans.client-key=${MIDTRANS_CLIENT_KEY}
+midtrans.is-production=${MIDTRANS_IS_PRODUCTION}
+
 # URL untuk link reset password di email
 app.frontend-url=${FRONTEND_URL}
 app.reset-password.expiration=3600000

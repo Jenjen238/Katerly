@@ -22,6 +22,7 @@ public class SecurityConfig {
     private static final String[] PUBLIC_URLS = {
             "/api/health",
             "/api/auth/**",
+            "/api/subscriptions/webhook",
             "/h2-console/**",
             "/swagger-ui/**",
             "/swagger-ui.html",
