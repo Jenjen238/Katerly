@@ -42,7 +42,9 @@ public class SecurityConfig {
             "/h2-console/**",
             "/swagger-ui/**",
             "/swagger-ui.html",
-            "/api-docs/**"
+            "/api-docs/**",
+            "/v3/api-docs/**", 
+            "/v3/api-docs"    
     };
 
     @Bean
