@@ -152,9 +152,9 @@ public class NotaService {
 
     // ─── GENERATE NOMOR INVOICE ───────────────────────────────────────────────────
     private String generateNomorInvoice(Long userId) {
-        long count = notaRepository.countByUserUserId(userId) + 1;
-        String year = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy"));
-        return String.format("INV-%s-%04d", year, count);
+        String datePart = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyyMMdd"));
+        String uniquePart = String.valueOf(System.currentTimeMillis() % 100000);
+        return String.format("INV-%s-%s-%s", datePart, userId, uniquePart);
     }
 
     // ─── HELPER ───────────────────────────────────────────────────────────────────

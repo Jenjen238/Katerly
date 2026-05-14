@@ -1,5 +1,6 @@
 package com.katerly.catering.controller;
 
+import com.katerly.catering.exception.BadRequestException;
 import com.katerly.catering.dto.request.*;
 import com.katerly.catering.dto.response.ApiResponse;
 import com.katerly.catering.service.AuthService;
@@ -47,7 +48,12 @@ public class AuthController {
             HttpServletRequest request,
             HttpServletResponse response) {
         Long userId = getUserIdFromCookie(request);
-        authService.logout(userId, response);
+        if (userId != null) {
+            authService.logout(userId, response);
+        } else {
+            // Tetap hapus cookie meskipun token invalid/tidak ada
+            authService.logout(-1L, response);
+        }
         return ResponseEntity.ok(ApiResponse.success("Logout berhasil"));
     }
 

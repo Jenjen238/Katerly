@@ -130,7 +130,9 @@ public class RecipeService {
         }
 
         // Hitung harga jual = hppFinal / (1 - margin/100)
-        if (recipe.getHppFinal().compareTo(BigDecimal.ZERO) > 0) {
+        if (recipe.getHppFinal().compareTo(BigDecimal.ZERO) > 0
+                && recipe.getMargin() != null
+                && recipe.getMargin().compareTo(BigDecimal.ZERO) > 0) {
             BigDecimal marginFactor = BigDecimal.ONE
                     .subtract(recipe.getMargin().divide(BigDecimal.valueOf(100), 4, RoundingMode.HALF_UP));
             if (marginFactor.compareTo(BigDecimal.ZERO) > 0) {

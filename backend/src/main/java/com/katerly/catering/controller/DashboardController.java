@@ -1,5 +1,6 @@
 package com.katerly.catering.controller;
 
+import com.katerly.catering.exception.BadRequestException;
 import com.katerly.catering.dto.response.ApiResponse;
 import com.katerly.catering.security.JwtUtil;
 import com.katerly.catering.service.DashboardService;
@@ -39,13 +40,24 @@ public class DashboardController {
 
     // ─── Helper ──────────────────────────────────────────────────────────────────
     private Long getUserId(HttpServletRequest request) {
+        String token = null;
         if (request.getCookies() != null) {
             for (Cookie cookie : request.getCookies()) {
                 if ("access_token".equals(cookie.getName())) {
-                    return jwtUtil.extractUserId(cookie.getValue());
+                    token = cookie.getValue();
+                    break;
                 }
             }
         }
-        return null;
+        if (token == null) {
+            String authHeader = request.getHeader("Authorization");
+            if (authHeader != null && authHeader.startsWith("Bearer ")) {
+                token = authHeader.substring(7);
+            }
+        }
+        if (token == null) {
+            throw new BadRequestException("Token tidak ditemukan, silakan login terlebih dahulu");
+        }
+        return jwtUtil.extractUserId(token);
     }
 }
