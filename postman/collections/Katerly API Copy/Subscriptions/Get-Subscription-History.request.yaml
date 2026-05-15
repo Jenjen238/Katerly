@@ -1,0 +1,10 @@
+$kind: http-request
+name: Get Subscription History
+method: GET
+url: '{{base_url}}/api/subscriptions/history'
+order: 3000
+auth:
+  type: bearer
+  credentials:
+    - key: token
+      value: '{{access_token}}'

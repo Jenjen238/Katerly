@@ -1,0 +1,13 @@
+$kind: http-request
+name: Search Ingredients
+method: GET
+url: '{{base_url}}/api/ingredients/search'
+order: 2000
+auth:
+  type: bearer
+  credentials:
+    - key: token
+      value: '{{access_token}}'
+queryParams:
+  - key: keyword
+    value: ''

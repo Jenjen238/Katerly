@@ -1,0 +1,7 @@
+$kind: http-request
+name: Refresh Token
+method: POST
+url: '{{base_url}}/api/auth/refresh'
+order: 4000
+auth:
+  type: noauth

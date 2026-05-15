@@ -12,9 +12,9 @@ public class BusinessProfileRequest {
     @Size(max = 100, message = "Nama usaha maksimal 100 karakter")
     private String namaUsaha;
 
-    @NotBlank(message = "Kota wajib diisi")
-    @Size(max = 100, message = "Kota maksimal 100 karakter")
-    private String kota;
+    @NotBlank(message = "Provinsi wajib diisi")
+    @Size(max = 100, message = "Provinsi maksimal 100 karakter")
+    private String provinsi;
 
     @Size(max = 20, message = "No WhatsApp maksimal 20 karakter")
     private String noWhatsapp;

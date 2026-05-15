@@ -30,7 +30,7 @@ public class BusinessProfile {
     private String namaUsaha;
 
     @Column(nullable = false, length = 100)
-    private String kota;
+    private String provinsi;
 
     @Column(name = "no_whatsapp", length = 20)
     private String noWhatsapp;

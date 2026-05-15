@@ -1,0 +1,21 @@
+$kind: http-request
+name: Create Ingredient
+method: POST
+url: '{{base_url}}/api/ingredients'
+order: 4000
+auth:
+  type: bearer
+  credentials:
+    - key: token
+      value: '{{access_token}}'
+headers:
+  - key: Content-Type
+    value: application/json
+body:
+  type: json
+  content: |-
+    {
+      "nama": "Ayam",
+      "satuan": "kg",
+      "hargaPerSatuan": 35000
+    }

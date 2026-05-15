@@ -26,7 +26,8 @@ public class BusinessProfileService {
     @Value("${katerly.upload.dir}")
     private String uploadDir;
 
-    // ─── CREATE OR UPDATE PROFILE ─────────────────────────────────────────────────
+    // ─── CREATE OR UPDATE PROFILE
+    // ─────────────────────────────────────────────────
     @Transactional
     public BusinessProfileResponse saveProfile(Long userId, BusinessProfileRequest req) {
         User user = userRepository.findById(userId)
@@ -36,7 +37,7 @@ public class BusinessProfileService {
                 .orElse(BusinessProfile.builder().user(user).build());
 
         profile.setNamaUsaha(req.getNamaUsaha());
-        profile.setKota(req.getKota());
+        profile.setProvinsi(req.getProvinsi());
         profile.setNoWhatsapp(req.getNoWhatsapp());
         profile.setEmail(req.getEmail());
         profile.setAlamat(req.getAlamat());
@@ -48,14 +49,16 @@ public class BusinessProfileService {
         return toResponse(businessProfileRepository.save(profile));
     }
 
-    // ─── GET PROFILE ──────────────────────────────────────────────────────────────
+    // ─── GET PROFILE
+    // ──────────────────────────────────────────────────────────────
     public BusinessProfileResponse getProfile(Long userId) {
         BusinessProfile profile = businessProfileRepository.findByUserUserId(userId)
                 .orElseThrow(() -> new ResourceNotFoundException("Profil bisnis belum dibuat"));
         return toResponse(profile);
     }
 
-    // ─── UPLOAD LOGO ──────────────────────────────────────────────────────────────
+    // ─── UPLOAD LOGO
+    // ──────────────────────────────────────────────────────────────
     @Transactional
     public BusinessProfileResponse uploadLogo(Long userId, MultipartFile file) throws IOException {
         BusinessProfile profile = businessProfileRepository.findByUserUserId(userId)
@@ -85,9 +88,11 @@ public class BusinessProfileService {
         return toResponse(businessProfileRepository.save(profile));
     }
 
-    // ─── HELPER ───────────────────────────────────────────────────────────────────
+    // ─── HELPER
+    // ───────────────────────────────────────────────────────────────────
     private String getExtension(String filename) {
-        if (filename == null) return ".png";
+        if (filename == null)
+            return ".png";
         int dot = filename.lastIndexOf('.');
         return dot >= 0 ? filename.substring(dot) : ".png";
     }
@@ -96,7 +101,7 @@ public class BusinessProfileService {
         return BusinessProfileResponse.builder()
                 .profileId(p.getProfileId())
                 .namaUsaha(p.getNamaUsaha())
-                .kota(p.getKota())
+                .provinsi(p.getProvinsi())
                 .noWhatsapp(p.getNoWhatsapp())
                 .email(p.getEmail())
                 .alamat(p.getAlamat())

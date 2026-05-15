@@ -57,7 +57,7 @@ public class NotaPdfService {
 
         Cell bizCell = new Cell().setBorder(com.itextpdf.layout.borders.Border.NO_BORDER);
         bizCell.add(new Paragraph(profile.getNamaUsaha()).setFont(bold).setFontSize(20).setFontColor(PRIMARY));
-        bizCell.add(new Paragraph(profile.getKota() != null ? profile.getKota() : "").setFont(normal).setFontSize(10).setFontColor(DARK_GRAY));
+        bizCell.add(new Paragraph(profile.getProvinsi() != null ? profile.getProvinsi() : "").setFont(normal).setFontSize(10).setFontColor(DARK_GRAY));
         if (profile.getNoWhatsapp() != null) bizCell.add(new Paragraph("WA: " + profile.getNoWhatsapp()).setFont(normal).setFontSize(9));
         if (profile.getEmail() != null) bizCell.add(new Paragraph(profile.getEmail()).setFont(normal).setFontSize(9));
         header.addCell(bizCell);

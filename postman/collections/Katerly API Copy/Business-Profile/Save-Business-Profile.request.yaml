@@ -1,0 +1,27 @@
+$kind: http-request
+name: Save Business Profile
+method: POST
+url: '{{base_url}}/api/business-profile'
+order: 2000
+auth:
+  type: bearer
+  credentials:
+    - key: token
+      value: '{{access_token}}'
+headers:
+  - key: Content-Type
+    value: application/json
+body:
+  type: json
+  content: |-
+    {
+      "namaUsaha": "Catering Ibu Sari",
+      "kota": "Jakarta",
+      "noWhatsapp": "08123456789",
+      "email": "catering@example.com",
+      "alamat": "Jl. Contoh No. 1",
+      "marginDefault": 30,
+      "matauang": "IDR",
+      "pajakDefault": 10,
+      "biayaPengantaranDefault": 50000
+    }

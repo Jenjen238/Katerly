@@ -1,0 +1,15 @@
+$kind: http-request
+name: Get Dashboard
+method: GET
+url: '{{base_url}}/api/dashboard'
+order: 1000
+auth:
+  type: bearer
+  credentials:
+    - key: token
+      value: '{{access_token}}'
+queryParams:
+  - key: year
+    value: ''
+  - key: month
+    value: ''

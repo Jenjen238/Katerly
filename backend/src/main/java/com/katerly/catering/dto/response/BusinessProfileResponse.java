@@ -12,7 +12,7 @@ public class BusinessProfileResponse {
 
     private Long profileId;
     private String namaUsaha;
-    private String kota;
+    private String provinsi;
     private String noWhatsapp;
     private String email;
     private String alamat;

@@ -1,0 +1,13 @@
+$kind: http-request
+name: Download Shopping List PDF
+method: GET
+url: '{{base_url}}/api/shopping-lists/:id/pdf'
+order: 7000
+auth:
+  type: bearer
+  credentials:
+    - key: token
+      value: '{{access_token}}'
+pathVariables:
+  - key: id
+    value: '1'
