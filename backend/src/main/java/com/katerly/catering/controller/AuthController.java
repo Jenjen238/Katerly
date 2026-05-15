@@ -12,6 +12,10 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+
+import com.katerly.catering.service.GoogleAuthService;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -85,6 +89,18 @@ public class AuthController {
             @Valid @RequestBody ResetPasswordRequest req) {
         authService.resetPassword(req);
         return ResponseEntity.ok(ApiResponse.success("Password berhasil direset, silakan login ulang"));
+    }
+
+    @Autowired
+    private GoogleAuthService googleAuthService;
+
+        @PostMapping("/google")
+        @Operation(summary = "Login dengan Google token dari frontend")
+        public ResponseEntity<ApiResponse<?>> loginWithGoogle(
+                @Valid @RequestBody GoogleTokenRequest req,
+                HttpServletResponse response) {
+            return ResponseEntity.ok(ApiResponse.success("Login berhasil",
+                    googleAuthService.loginWithGoogleToken(req, response)));
     }
 
     // ─── Helper ──────────────────────────────────────────────────────────────────

@@ -203,7 +203,7 @@ public class AuthService {
     private void setHttpOnlyCookie(HttpServletResponse response, String name, String value, int maxAge) {
         Cookie cookie = new Cookie(name, value);
         cookie.setHttpOnly(true);   // Tidak bisa diakses JavaScript
-        cookie.setSecure(false);    // Set true saat production (HTTPS)
+        cookie.setSecure(true);    // Set true saat production (HTTPS)
         cookie.setPath("/");
         cookie.setMaxAge(maxAge);
         response.addCookie(cookie);

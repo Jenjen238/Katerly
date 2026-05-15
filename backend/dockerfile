@@ -1,24 +1,11 @@
-# ===== STAGE 1: Build aplikasi =====
-FROM maven:3.9.9-eclipse-temurin-21 AS builder
+FROM eclipse-temurin:21-jre-alpine
 
 WORKDIR /app
 
-# Copy semua file project
-COPY . .
+COPY target/*.jar app.jar
 
-# Build jadi file .jar
-RUN mvn clean package -DskipTests
+RUN mkdir -p uploads/logos
 
-# ===== STAGE 2: Run aplikasi =====
-FROM eclipse-temurin:21-jdk
-
-WORKDIR /app
-
-# Copy hasil build dari stage sebelumnya
-COPY --from=builder /app/target/*.jar app.jar
-
-# Port aplikasi
 EXPOSE 8080
 
-# Jalankan aplikasi
 ENTRYPOINT ["java", "-jar", "app.jar"]
