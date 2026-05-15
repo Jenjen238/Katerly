@@ -122,6 +122,6 @@ jobs:
           key: ${{ secrets.VPS_SSH_PRIVATE_KEY }}
           port: 11065
           script: |
-            cd ~/katerly
-            docker compose pull
-            docker compose up -d
+            cd ~/Katerly
+            docker-compose pull
+            docker-compose up -d
