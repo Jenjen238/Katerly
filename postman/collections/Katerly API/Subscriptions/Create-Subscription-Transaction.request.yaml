@@ -1,0 +1,10 @@
+$kind: http-request
+name: Create Subscription Transaction
+method: POST
+url: '{{base_url}}/api/subscriptions/create'
+order: 1000
+auth:
+  type: bearer
+  credentials:
+    - key: token
+      value: '{{access_token}}'

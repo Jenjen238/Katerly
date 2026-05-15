@@ -1,0 +1,10 @@
+$kind: http-request
+name: Get Business Profile
+method: GET
+url: '{{base_url}}/api/business-profile'
+order: 1000
+auth:
+  type: bearer
+  credentials:
+    - key: token
+      value: '{{access_token}}'

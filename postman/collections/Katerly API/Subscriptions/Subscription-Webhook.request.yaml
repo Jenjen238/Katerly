@@ -1,0 +1,18 @@
+$kind: http-request
+name: Subscription Webhook
+method: POST
+url: '{{base_url}}/api/subscriptions/webhook'
+order: 4000
+auth:
+  type: noauth
+headers:
+  - key: Content-Type
+    value: application/json
+body:
+  type: json
+  content: |-
+    {
+      "order_id": "ORDER-123",
+      "transaction_status": "settlement",
+      "payment_type": "bank_transfer"
+    }

@@ -1,0 +1,30 @@
+$kind: http-request
+name: Create Nota
+method: POST
+url: '{{base_url}}/api/notas'
+order: 4000
+auth:
+  type: bearer
+  credentials:
+    - key: token
+      value: '{{access_token}}'
+headers:
+  - key: Content-Type
+    value: application/json
+body:
+  type: json
+  content: |-
+    {
+      "namaClient": "Budi Santoso",
+      "noWaClient": "08123456789",
+      "namaAcara": "Pernikahan",
+      "tanggalAcara": "2025-12-25",
+      "pajakPersen": 10,
+      "biayaPengantaran": 50000,
+      "items": [
+        {
+          "recipeId": 1,
+          "jumlahPorsi": 100
+        }
+      ]
+    }

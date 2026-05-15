@@ -1,0 +1,16 @@
+$kind: http-request
+name: Update Nota Status
+method: PATCH
+url: '{{base_url}}/api/notas/:id/status'
+order: 5000
+auth:
+  type: bearer
+  credentials:
+    - key: token
+      value: '{{access_token}}'
+pathVariables:
+  - key: id
+    value: '1'
+queryParams:
+  - key: status
+    value: ''

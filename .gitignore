@@ -1,5 +1,4 @@
 target/
 application.properties
 .env
-docker-compose.yml
 *.jar

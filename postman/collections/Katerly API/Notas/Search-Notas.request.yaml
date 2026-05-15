@@ -1,0 +1,15 @@
+$kind: http-request
+name: Search Notas
+method: GET
+url: '{{base_url}}/api/notas/search'
+order: 3000
+auth:
+  type: bearer
+  credentials:
+    - key: token
+      value: '{{access_token}}'
+queryParams:
+  - key: keyword
+    value: ''
+  - key: type
+    value: ''

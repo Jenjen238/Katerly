@@ -1,0 +1,19 @@
+$kind: http-request
+name: Generate Shopping List
+method: POST
+url: '{{base_url}}/api/shopping-lists/generate'
+order: 3000
+auth:
+  type: bearer
+  credentials:
+    - key: token
+      value: '{{access_token}}'
+headers:
+  - key: Content-Type
+    value: application/json
+body:
+  type: json
+  content: |-
+    {
+      "recipeIds": [1, 2]
+    }

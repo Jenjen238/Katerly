@@ -1,0 +1,10 @@
+$kind: http-request
+name: Get All Recipes
+method: GET
+url: '{{base_url}}/api/recipes'
+order: 1000
+auth:
+  type: bearer
+  credentials:
+    - key: token
+      value: '{{access_token}}'
