@@ -123,5 +123,5 @@ jobs:
           port: 11065
           script: |
             cd ~/Katerly/backend
-            docker-compose pull
-            docker-compose up -d
+            docker compose pull
+            docker compose up -d
