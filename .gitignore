@@ -2,3 +2,5 @@ target/
 application.properties
 .env
 *.jar
+.postman
+katerly_backup.sql
