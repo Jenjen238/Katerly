@@ -11,6 +11,7 @@ import java.time.LocalDateTime;
 public class BusinessProfileResponse {
 
     private Long profileId;
+    private String namaPemilik;
     private String namaUsaha;
     private String provinsi;
     private String noWhatsapp;
@@ -21,6 +22,7 @@ public class BusinessProfileResponse {
     private String matauang;
     private BigDecimal pajakDefault;
     private BigDecimal biayaPengantaranDefault;
-    private LocalDateTime updatedAt;
+    private boolean isPremium;
     private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
 }

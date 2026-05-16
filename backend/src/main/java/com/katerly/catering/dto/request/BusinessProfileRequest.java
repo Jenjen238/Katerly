@@ -12,7 +12,6 @@ public class BusinessProfileRequest {
     @Size(max = 100, message = "Nama usaha maksimal 100 karakter")
     private String namaUsaha;
 
-    @NotBlank(message = "Provinsi wajib diisi")
     @Size(max = 100, message = "Provinsi maksimal 100 karakter")
     private String provinsi;
 

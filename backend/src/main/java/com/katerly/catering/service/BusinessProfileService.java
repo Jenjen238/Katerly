@@ -26,8 +26,7 @@ public class BusinessProfileService {
     @Value("${katerly.upload.dir}")
     private String uploadDir;
 
-    // ─── CREATE OR UPDATE PROFILE
-    // ─────────────────────────────────────────────────
+    // ─── CREATE OR UPDATE PROFILE ─────────────────────────────────────────────────
     @Transactional
     public BusinessProfileResponse saveProfile(Long userId, BusinessProfileRequest req) {
         User user = userRepository.findById(userId)
@@ -46,60 +45,57 @@ public class BusinessProfileService {
         profile.setPajakDefault(req.getPajakDefault());
         profile.setBiayaPengantaranDefault(req.getBiayaPengantaranDefault());
 
-        return toResponse(businessProfileRepository.save(profile));
+        return toResponse(businessProfileRepository.save(profile), user);
     }
 
-    // ─── GET PROFILE
-    // ──────────────────────────────────────────────────────────────
+    // ─── GET PROFILE ──────────────────────────────────────────────────────────────
     public BusinessProfileResponse getProfile(Long userId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new ResourceNotFoundException("User tidak ditemukan"));
         BusinessProfile profile = businessProfileRepository.findByUserUserId(userId)
                 .orElseThrow(() -> new ResourceNotFoundException("Profil bisnis belum dibuat"));
-        return toResponse(profile);
+        return toResponse(profile, user);
     }
 
-    // ─── UPLOAD LOGO
-    // ──────────────────────────────────────────────────────────────
+    // ─── UPLOAD LOGO ──────────────────────────────────────────────────────────────
     @Transactional
     public BusinessProfileResponse uploadLogo(Long userId, MultipartFile file) throws IOException {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new ResourceNotFoundException("User tidak ditemukan"));
         BusinessProfile profile = businessProfileRepository.findByUserUserId(userId)
                 .orElseThrow(() -> new ResourceNotFoundException("Profil bisnis belum dibuat"));
 
-        // Validasi tipe file
         String contentType = file.getContentType();
         if (contentType == null || !contentType.startsWith("image/")) {
             throw new IllegalArgumentException("File harus berupa gambar");
         }
 
-        // Buat folder jika belum ada
         Files.createDirectories(Paths.get(uploadDir));
 
-        // Hapus logo lama jika ada
         if (profile.getLogoPath() != null) {
             Files.deleteIfExists(Paths.get(profile.getLogoPath()));
         }
 
-        // Simpan logo baru
         String extension = getExtension(file.getOriginalFilename());
         String filename = "logo_" + userId + "_" + System.currentTimeMillis() + extension;
         Path filePath = Paths.get(uploadDir, filename);
         Files.write(filePath, file.getBytes());
 
         profile.setLogoPath(filePath.toString());
-        return toResponse(businessProfileRepository.save(profile));
+        return toResponse(businessProfileRepository.save(profile), user);
     }
 
-    // ─── HELPER
-    // ───────────────────────────────────────────────────────────────────
+    // ─── HELPER ───────────────────────────────────────────────────────────────────
     private String getExtension(String filename) {
-        if (filename == null)
-            return ".png";
+        if (filename == null) return ".png";
         int dot = filename.lastIndexOf('.');
         return dot >= 0 ? filename.substring(dot) : ".png";
     }
 
-    private BusinessProfileResponse toResponse(BusinessProfile p) {
+    private BusinessProfileResponse toResponse(BusinessProfile p, User user) {
         return BusinessProfileResponse.builder()
                 .profileId(p.getProfileId())
+                .namaPemilik(user.getNamaPemilik())
                 .namaUsaha(p.getNamaUsaha())
                 .provinsi(p.getProvinsi())
                 .noWhatsapp(p.getNoWhatsapp())
@@ -110,6 +106,7 @@ public class BusinessProfileService {
                 .matauang(p.getMatauang())
                 .pajakDefault(p.getPajakDefault())
                 .biayaPengantaranDefault(p.getBiayaPengantaranDefault())
+                .isPremium(user.isPremium())
                 .createdAt(p.getCreatedAt())
                 .updatedAt(p.getUpdatedAt())
                 .build();
