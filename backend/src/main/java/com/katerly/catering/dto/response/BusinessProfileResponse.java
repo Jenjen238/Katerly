@@ -22,4 +22,5 @@ public class BusinessProfileResponse {
     private BigDecimal pajakDefault;
     private BigDecimal biayaPengantaranDefault;
     private LocalDateTime updatedAt;
+    private LocalDateTime createdAt;
 }

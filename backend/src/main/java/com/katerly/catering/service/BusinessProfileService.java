@@ -110,6 +110,7 @@ public class BusinessProfileService {
                 .matauang(p.getMatauang())
                 .pajakDefault(p.getPajakDefault())
                 .biayaPengantaranDefault(p.getBiayaPengantaranDefault())
+                .createdAt(p.getCreatedAt())
                 .updatedAt(p.getUpdatedAt())
                 .build();
     }
