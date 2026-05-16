@@ -40,6 +40,7 @@ public class SecurityConfig {
             "/api/auth/**",
             "/api/subscriptions/webhook",
             "/h2-console/**",
+            "/uploads/**",    
             "/swagger-ui/**",
             "/swagger-ui.html",
             "/api-docs/**",

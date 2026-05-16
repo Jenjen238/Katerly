@@ -9,6 +9,8 @@ import com.katerly.catering.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import com.katerly.catering.dto.response.NotaListResponse;
+
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -119,10 +121,30 @@ public class NotaService {
     }
 
     // ─── GET ALL ──────────────────────────────────────────────────────────────────
-    public List<NotaResponse> getAll(Long userId) {
-        return notaRepository.findByUserUserIdOrderByCreatedAtDesc(userId)
-                .stream().map(this::toResponse).collect(Collectors.toList());
-    }
+public NotaListResponse getAll(Long userId) {
+    List<Nota> notas = notaRepository.findByUserUserIdOrderByCreatedAtDesc(userId);
+
+    List<NotaResponse> notaResponses = notas.stream()
+            .map(this::toResponse)
+            .collect(Collectors.toList());
+
+    BigDecimal totalProfit = notas.stream()
+            .map(n -> n.getTotalProfit() != null ? n.getTotalProfit() : BigDecimal.ZERO)
+            .reduce(BigDecimal.ZERO, BigDecimal::add);
+
+    BigDecimal marginRataRata = notas.isEmpty() ? BigDecimal.ZERO
+            : notas.stream()
+                    .map(n -> n.getMarginAktual() != null ? n.getMarginAktual() : BigDecimal.ZERO)
+                    .reduce(BigDecimal.ZERO, BigDecimal::add)
+                    .divide(BigDecimal.valueOf(notas.size()), 2, RoundingMode.HALF_UP);
+
+    return NotaListResponse.builder()
+            .totalNota((long) notas.size())
+            .totalProfit(totalProfit.setScale(2, RoundingMode.HALF_UP))
+            .marginRataRata(marginRataRata)
+            .notas(notaResponses)
+            .build();
+}
 
     // ─── GET BY ID ────────────────────────────────────────────────────────────────
     public NotaResponse getById(Long userId, Long notaId) {

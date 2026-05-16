@@ -28,7 +28,6 @@ public class NotaController {
     private final JwtUtil jwtUtil;
 
     @GetMapping
-    @Operation(summary = "Ambil semua nota")
     public ResponseEntity<ApiResponse<?>> getAll(HttpServletRequest request) {
         return ResponseEntity.ok(ApiResponse.success("Berhasil",
                 notaService.getAll(getUserId(request))));
@@ -98,6 +97,7 @@ public class NotaController {
                 .filename("nota-" + id + ".pdf").build());
         return ResponseEntity.ok().headers(headers).body(pdf);
     }
+
 
     // ─── Helper ──────────────────────────────────────────────────────────────────
     private Long getUserId(HttpServletRequest request) {
