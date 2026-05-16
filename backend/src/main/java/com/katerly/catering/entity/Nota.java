@@ -72,7 +72,7 @@ public class Nota {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     @Builder.Default
-    private Status status = Status.DRAFT;
+    private Status status = Status.SELESAI;
 
     @OneToMany(mappedBy = "nota", cascade = CascadeType.ALL, orphanRemoval = true)
     @Builder.Default
