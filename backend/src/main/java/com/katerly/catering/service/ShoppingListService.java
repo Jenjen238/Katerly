@@ -72,7 +72,7 @@ public class ShoppingListService {
             // Akumulasi bahan
             for (RecipeIngredient ri : recipe.getRecipeIngredients()) {
                 Long ingId = ri.getIngredient().getIngredientId();
-                BigDecimal totalQty = ri.getQuantity().multiply(BigDecimal.valueOf(recipe.getJumlahPorsi()));
+                BigDecimal totalQty = ri.getQuantity();
                 bahanMap.computeIfAbsent(ingId, k -> new BahanAcc(ri.getIngredient())).add(totalQty);
             }
         }
