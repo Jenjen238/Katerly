@@ -18,12 +18,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -33,13 +30,13 @@ public class SubscriptionService {
     private final SubscriptionRepository subscriptionRepository;
     private final UserRepository userRepository;
 
-    @Value("${midtrans.server-key}")
+    @Value("${MIDTRANS_SERVER_KEY:${midtrans.server-key:}}")
     private String serverKey;
 
-    @Value("${midtrans.client-key}")
+    @Value("${MIDTRANS_CLIENT_KEY:${midtrans.client-key:}}")
     private String clientKey;
 
-    @Value("${midtrans.is-production}")
+    @Value("${MIDTRANS_IS_PRODUCTION:${midtrans.is-production:false}}")
     private boolean isProduction;
 
     private static final BigDecimal HARGA_PREMIUM = new BigDecimal("39999");
@@ -50,25 +47,20 @@ public class SubscriptionService {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new ResourceNotFoundException("User tidak ditemukan"));
 
-        // Cek apakah sudah premium aktif
         if (user.isPremium()) {
             throw new BadRequestException("Akun kamu sudah Premium!");
         }
 
-        // Cek apakah ada transaksi pending
         subscriptionRepository.findByUserUserIdAndStatus(userId, Subscription.Status.PENDING)
                 .ifPresent(s -> {
                     throw new BadRequestException("Kamu masih memiliki transaksi yang belum dibayar. Order ID: " + s.getMidtransOrderId());
                 });
 
-        // Generate order ID unik
         String orderId = "KTL-" + userId + "-" + System.currentTimeMillis();
 
-        // Setup Midtrans
         Config config = new ConfigFactory(new Config(serverKey, clientKey, isProduction)).getConfig();
         MidtransSnapApi snapApi = new ConfigFactory(config).getSnapApi();
 
-        // Build parameter transaksi
         Map<String, Object> params = new HashMap<>();
 
         Map<String, Object> transactionDetails = new HashMap<>();
@@ -81,7 +73,6 @@ public class SubscriptionService {
         customerDetails.put("email", user.getEmail());
         params.put("customer_details", customerDetails);
 
-        // Item detail
         Map<String, Object> itemDetail = new HashMap<>();
         itemDetail.put("id", "PREMIUM-MONTHLY");
         itemDetail.put("price", HARGA_PREMIUM.intValue());
@@ -90,12 +81,10 @@ public class SubscriptionService {
         params.put("item_details", List.of(itemDetail));
 
         try {
-            // Request snap token ke Midtrans
             JSONObject result = snapApi.createTransaction(params);
             String snapToken = result.getString("token");
             String paymentUrl = result.getString("redirect_url");
 
-            // Simpan ke DB
             Subscription subscription = Subscription.builder()
                     .user(user)
                     .midtransOrderId(orderId)
@@ -132,14 +121,12 @@ public class SubscriptionService {
 
         if ("capture".equals(transactionStatus) || "settlement".equals(transactionStatus)) {
             if ("accept".equals(fraudStatus)) {
-                // Pembayaran berhasil
                 subscription.setStatus(Subscription.Status.SUCCESS);
                 subscription.setMidtransTransactionId(transactionId);
                 subscription.setStartDate(LocalDate.now());
                 subscription.setEndDate(LocalDate.now().plusMonths(1));
                 subscriptionRepository.save(subscription);
 
-                // Aktifkan premium user
                 User user = subscription.getUser();
                 user.setPremium(true);
                 userRepository.save(user);
