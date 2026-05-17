@@ -99,7 +99,7 @@ public class BusinessProfileService {
                 .namaUsaha(p.getNamaUsaha())
                 .provinsi(p.getProvinsi())
                 .noWhatsapp(p.getNoWhatsapp())
-                .email(p.getEmail())
+                .email(user.getEmail())
                 .alamat(p.getAlamat())
                 .logoPath(p.getLogoPath())
                 .marginDefault(p.getMarginDefault())
