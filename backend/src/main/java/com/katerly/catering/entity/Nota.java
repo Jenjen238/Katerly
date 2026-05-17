@@ -34,7 +34,7 @@ public class Nota {
     private User user;
 
     // Auto-generate oleh sistem, contoh: INV-0001
-    @Column(name = "nomor_invoice", nullable = false, unique = true, length = 20)
+    @Column(name = "nomor_invoice", nullable = false, unique = true, length = 100)
     private String nomorInvoice;
 
     @Column(name = "nama_client", nullable = false, length = 100)
